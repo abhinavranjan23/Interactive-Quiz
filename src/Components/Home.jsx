@@ -8,6 +8,7 @@ import { addAdmin } from "../redux/Slices/adminSlice";
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     authenicateUser();
   }, []);
