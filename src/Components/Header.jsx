@@ -14,7 +14,7 @@ const Header = () => {
       credentials: "include",
     });
     dispatch(removeAdmin());
-    navigate("/login");
+    navigate("/admin/login");
   };
   return (
     <div className='navbar bg-base-100 shadow-sm'>
@@ -23,13 +23,14 @@ const Header = () => {
       </div>
       <div
         className={`flex items-center  gap-5 mr-5 ${
-          location.pathname == "/login" || location.pathname == "/signup"
+          location.pathname == "/admin/login" ||
+          location.pathname == "/admin/signup"
             ? "hidden"
             : "visible"
         } `}
       >
         <div className=' p-2 dark:bg-cyan-950 dark:text-cyan-100 rounded-md hover:bg-cyan-100 hover:text-cyan-900'>
-          <Link to='/insertquizes' className=''>
+          <Link to='/admin/insertquizes' className=''>
             Insert Quizes
           </Link>
         </div>

@@ -9,29 +9,34 @@ import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import { Provider } from "react-redux";
 import appStore from "./redux/appStore";
+import UserHome from "./Components/UserComponents/UserHome";
 
 const App = () => {
   const appRouter = createBrowserRouter([
     {
       path: "/",
+      element: <UserHome />,
+    },
+    {
+      path: "/admin",
       element: <Home />,
       children: [
         {
-          path: "/",
+          path: "/admin",
           element: <Quizes />,
         },
         {
-          path: "/insertQuizes",
+          path: "/admin/insertQuizes",
           element: <InsertQuizes />,
         },
       ],
     },
     {
-      path: "/login",
+      path: "/admin/login",
       element: <Login />,
     },
     {
-      path: "/signUp",
+      path: "/admin/signUp",
       element: <Signup />,
     },
     {

@@ -4,6 +4,7 @@ import { Outlet, useNavigate } from "react-router";
 import Footer from "./Footer";
 import { useDispatch } from "react-redux";
 import { addAdmin } from "../redux/Slices/adminSlice";
+import Swal from "sweetalert2";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -23,7 +24,17 @@ const Home = () => {
     const data = await res.json();
     if (!res.ok) {
       console.log("Access not granted");
-      navigate("/login");
+      Swal.fire({
+        text: "Access not granted",
+        icon: "warning",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        confirmButtonText: "Login to Continue",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/admin/login");
+        }
+      });
     } else if (res.ok) {
       dispatch(addAdmin(data.admin));
     }

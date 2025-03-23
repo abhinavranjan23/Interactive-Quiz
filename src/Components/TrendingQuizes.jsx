@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import LeftArrow from "../assets/left-arrow.png";
 import RightIcon from "../assets/right-icon.png";
 import Swal from "sweetalert2";
+import Shimmer from "./Shimmer";
 const TrendingQuizes = () => {
-  const arr = new Array(10).fill(0);
   const container = useRef(null);
   const [trendingQuizzes, setTrendingQuizzes] = useState(null);
   console.log(trendingQuizzes);
@@ -14,10 +14,12 @@ const TrendingQuizes = () => {
     container.current.scrollLeft += 500;
   };
   useEffect(() => {
+    if (trendingQuizzes) {
+      return;
+    }
     fetchTrendingQuizes();
-  }, []);
+  }, [trendingQuizzes]);
   const handleEditTrending = (id) => {
-    console.log("handle diting called");
     return Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -76,15 +78,20 @@ const TrendingQuizes = () => {
         credentials: "include",
       });
       const data = await res.json();
-      setTrendingQuizzes(data.quizzes);
+      setTimeout(() => {
+        setTrendingQuizzes(data.quizzes);
+      }, 3000);
     } catch (err) {
       console.log("Failed to fetch");
     }
   };
+  if (!trendingQuizzes) {
+    return <Shimmer />;
+  }
   return (
-    <div className=' ml-10 group  '>
+    <div className='ml-5 md:ml-10 group  '>
       <div className='flex justify-between items-center'>
-        <h2 className='my-5 text-3xl font-serif dark:text-cyan-200 '>
+        <h2 className='md:my-5 my-2.5 text-lg md:text-3xl font-serif dark:text-cyan-200 '>
           Trending Quizes
         </h2>
         <div className=' items-center gap-2 mr-5 hidden group-hover:flex group-hover:visible'>
@@ -103,7 +110,7 @@ const TrendingQuizes = () => {
         </div>
       </div>
       <div
-        className='flex flex-row gap-5 w-full overflow-x-scroll scrollbar-hide scroll-smooth p-4 '
+        className='flex flex-row gap-5 w-full overflow-x-scroll scrollbar-hide scroll-smooth py-4 '
         ref={container}
       >
         {trendingQuizzes &&
@@ -111,24 +118,24 @@ const TrendingQuizes = () => {
             return (
               <div
                 key={index}
-                className='card bg-base-100 w-96 shadow-md flex-shrink-0 '
+                className='card bg-base-100 w-8/12 md:w-96 shadow-md flex-shrink-0 '
               >
                 <figure>
                   <img
                     src={item.titleImage}
                     alt='Shoes'
-                    className='w-full h-full object-cover'
+                    className=' w-full h-24 md:w-96 md:h-56 object-cover'
                   />
                 </figure>
                 <div className='card-body'>
-                  <h2 className='card-title'>
+                  <h2 className='card-title textarea-md md:text-lg'>
                     {item.title}
                     <div className='badge badge-secondary'>{` ${
                       item.isTrending ? "Trending" : ""
                     } `}</div>
                   </h2>
                   <div className='flex flex-col'>
-                    <div className='flex'>
+                    <div className='flex flex-col md:flex-row'>
                       <p className='text-cyan-200'>
                         Total Question:{" "}
                         <span className='font-semibold text-purple-200'>

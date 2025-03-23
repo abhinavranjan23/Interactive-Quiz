@@ -23,7 +23,7 @@ const Login = () => {
       credentials: "include",
     });
     if (res.ok) {
-      navigate("/");
+      navigate("/admin");
     }
   };
   const handleLogin = async () => {
@@ -41,7 +41,7 @@ const Login = () => {
       const data = await res.json();
       if (res.status === 200) {
         dispatch(addAdmin(data.admin));
-        navigate("/");
+        navigate("/admin");
       } else {
         Swal.fire({
           icon: "error",
@@ -85,7 +85,7 @@ const Login = () => {
             <p>
               Didn't have an account ?
               <Link
-                to='/signup'
+                to='/admin/signup'
                 className='hover:cursor-pointer font-mono  text-white'
               >
                 {" "}
